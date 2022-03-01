@@ -14,11 +14,28 @@ app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
 app.use(methodOverride('_method'))
 
-app.use('/articles', articleRouter)
-
 app.get('/', async ( req, res ) => {
   const articles = await Article.find().sort({ createdAt: 'desc' })
   res.render('articles/index', { articles: articles })
 })
+
+app.get('/search', async ( req, res ) => {
+  if (!req.query.query) {
+    return res.redirect('/')
+  }
+
+  const query = req.query.query.replace(/\s+/g,' ').trim()
+  
+  try {
+    const articles = await Article.find({ title: { $regex: query, $options: 'i' } })
+    
+    res.render('articles/search', { query: query, articles: articles })
+  } catch (e) {
+    console.log(e)
+    res.redirect('/')
+  }
+})
+
+app.use('/articles', articleRouter)
 
 app.listen(process.env.PORT || 5000)

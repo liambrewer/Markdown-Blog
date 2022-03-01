@@ -11,11 +11,10 @@
 <body>
   <%- include('../_header.ejs') %>
   <div class="container-md">
-    <h1 class="mb-4">Blog Articles</h1>
-    <a href="/articles/new" class="btn btn-success">
-      New Article
+    <h1 class="mb-4">Search: <%= query %></h1>
+    <a href="/" class="btn btn-secondary">
+      All Articles
     </a>
-
     <% articles.forEach(article => { %>
       <%- include('_article_card', {article: article}) %>
     <% }) %>
