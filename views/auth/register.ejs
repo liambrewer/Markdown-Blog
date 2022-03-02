@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+    <div class="card border-0 shadow rounded-3 my-5">
+      <div class="card-body p-4 p-sm-5">
+        <h5 class="card-title text-center mb-5 fw-light fs-5">Register</h5>
+        <%- include('_messages.ejs') %>
+        <form action="/auth/register" method="post" class="mb-3">
+          <div class="form-floating form-group mb-3">
+            <input required type="text" name="username" class="form-control" id="usernameInput" placeholder="username" autocomplete="none"
+            value="<%= typeof username != 'undefined' ? username : '' %>">
+            <label for="usernameInput">Username</label>
+          </div>
+          <div class="form-floating form-group mb-3">
+            <input required type="email" name="email" class="form-control" id="emailInput" placeholder="name@example.com"
+            value="<%= typeof email != 'undefined' ? email : '' %>">
+            <label for="emailInput">Email address</label>
+          </div>
+          <div class="form-floating form-group mb-3">
+            <input required type="password" name="password" class="form-control" id="passwordInput" placeholder="password">
+            <label for="passwordInput">Password</label>
+          </div>
+          <div class="form-floating form-group mb-3">
+            <input  type="password" name="password2" class="form-control" id="confirmPasswordInput" placeholder="confirm password">
+            <label for="confirmPasswordInput">Confirm Password</label>
+          </div>
+          <div class="d-grid">
+            <button class="btn btn-primary" type="submit">
+              Submit
+            </button>
+          </div>
+        </form>
+        <p class="card-text">Already have an account? <a href="/auth/login">Login</a></p>
+      </div>
+    </div>
+  </div>
+</div>

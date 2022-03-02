@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+    <div class="card border-0 shadow rounded-3 my-5">
+      <div class="card-body p-4 p-sm-5">
+        <h5 class="card-title text-center mb-5 fw-light fs-5">Sign In</h5>
+        <%- include('_messages.ejs') %>
+        <form action="/auth/login" method="post" class="mb-3">
+          <div class="form-floating form-group mb-3">
+            <input required type="email" class="form-control" name="email" id="emailInput" placeholder="name@example.com">
+            <label for="emailInput">Email address</label>
+          </div>
+          <div class="form-floating form-group mb-3">
+            <input required type="password" class="form-control" name="password" id="passwordInput" placeholder="password">
+            <label for="passwordInput">Password</label>
+          </div>
+          <div class="form-check form-group mb-3">
+            <input type="checkbox" class="form-check-input" name="remember" value="" id="rememberPasswordCheck">
+            <label for="rememberPasswordCheck">Remember Password</label>
+          </div>
+          <div class="d-grid">
+            <button class="btn btn-primary" type="submit">
+              Submit
+            </button>
+          </div>
+        </form>
+        <p class="card-text">Don't have an account yet? <a href="/auth/register">Register Now</a></p>
+      </div>
+    </div>
+  </div>
+</div>

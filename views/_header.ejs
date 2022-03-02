@@ -1,10 +1,32 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-primary
 fixed-top position-sticky">
-  <div class="container-md">
-    <a href="/" class="navbar-brand">Markdown Blog</a>
-    <form action="/search" method="get" class="form-inline 
-    my-2 my-lg-0" autocomplete="off">
-      <input type="text" name="query" placeholder="Search" class="form-control mr-sm-2">
-    </form>
+<div class="container-lg">
+  <a href="/" class="navbar-brand">Markdown Blog</a>
+  <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+  data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+  aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a href="/" class="nav-link">Home</a>
+      </li>
+      <% if(typeof user === 'undefined') { %>
+        <li class="nav-item">
+          <a href="/auth/login" class="nav-link">Login</a>
+        </li>
+        <li class="nav-item">
+          <a href="/auth/register" class="nav-link">Register</a>
+        </li>
+      <% } %>
+      <li class="nav-item">
+        <form action="/search" method="get" class="form-inline" autocomplete="off">
+          <input value="<%= typeof query != 'undefined' ? query : '' %>" type="text" name="query" placeholder="Search" class="form-control mr-sm-2">
+        </form>
+      </li>
+    </ul>
   </div>
+</div>
 </nav>

@@ -1,12 +1,13 @@
 const express = require('express')
 const Article = require('./../models/article')
 const router = express.Router()
+const { ensureAuthenticated } = require('../config/auth')
 
-router.get('/new', ( req, res ) => {
+router.get('/new', ensureAuthenticated, ( req, res ) => {
   res.render('articles/new', { article: new Article() })
 })
 
-router.get('/edit/:id', async ( req, res ) => {
+router.get('/edit/:id', ensureAuthenticated, async ( req, res ) => {
   const article = await Article.findById(req.params.id)
   res.render('articles/edit', { article: article })
 })
@@ -14,20 +15,20 @@ router.get('/edit/:id', async ( req, res ) => {
 router.get('/:slug', async ( req, res ) => {
   const article = await Article.findOne({ slug: req.params.slug })
   if (article == null) return res.redirect('/')
-  res.render('articles/show', { article: article })
+  res.render('articles/show', { user: req.user, article: article })
 })
 
-router.post('/', async ( req, res, next ) => {
+router.post('/', ensureAuthenticated, async ( req, res, next ) => {
   req.article = new Article()
   next()
 }, saveArticleAndRedirect('new'))
 
-router.put('/:id', async ( req, res, next ) => {
+router.put('/:id', ensureAuthenticated, async ( req, res, next ) => {
   req.article = await Article.findById(req.params.id)
   next()
 }, saveArticleAndRedirect('edit'))
 
-router.delete('/:id', async ( req, res ) => {
+router.delete('/:id', ensureAuthenticated, async ( req, res ) => {
   await Article.findByIdAndDelete(req.params.id)
   res.redirect('/')
 })

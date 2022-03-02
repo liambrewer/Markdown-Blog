@@ -1,41 +1,45 @@
 const express = require('express')
+const expressLayouts = require('express-ejs-layouts')
 const mongoose = require('mongoose')
-const Article = require('./models/article')
 const methodOverride = require('method-override')
+const flash = require('connect-flash')
+const session = require('express-session')
+const passport = require('passport')
+const indexRouter = require('./routes/index')
+const authRouter = require('./routes/auth')
+const userRouter = require('./routes/users')
 const articleRouter = require('./routes/articles')
 const app = express()
+const PORT = process.env.PORT || 5000
 require('dotenv').config()
+require('./config/passport')(passport)
 
 //Create a .env file with a MONGO_URI specified.
 //MONGO_URI=____________
 mongoose.connect(process.env.MONGO_URI)
 
+app.use(expressLayouts)
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
+app.use(session({
+  secret: process.env.SECRET,
+  resave: true,
+  saveUninitialized: true
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash())
+app.use(( req, res, next ) => {
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.error_msg = req.flash('error_msg')
+  res.locals.error = req.flash('error')
+  next()
+})
 app.use(methodOverride('_method'))
 
-app.get('/', async ( req, res ) => {
-  const articles = await Article.find().sort({ createdAt: 'desc' })
-  res.render('articles/index', { articles: articles })
-})
-
-app.get('/search', async ( req, res ) => {
-  if (!req.query.query) {
-    return res.redirect('/')
-  }
-
-  const query = req.query.query.replace(/\s+/g,' ').trim()
-  
-  try {
-    const articles = await Article.find({ title: { $regex: query, $options: 'i' } })
-    
-    res.render('articles/search', { query: query, articles: articles })
-  } catch (e) {
-    console.log(e)
-    res.redirect('/')
-  }
-})
-
+app.use('/', indexRouter)
+app.use('/auth', authRouter)
+app.use('/users', userRouter)
 app.use('/articles', articleRouter)
 
-app.listen(process.env.PORT || 5000)
+app.listen(PORT)
