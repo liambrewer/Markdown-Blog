@@ -3,7 +3,7 @@
     <div class="card border-0 shadow rounded-3 my-5">
       <div class="card-body p-4 p-sm-5">
         <h5 class="card-title text-center mb-5 fw-light fs-5">Register</h5>
-        <%- include('_messages.ejs') %>
+        <%- include('../partials/_messages.ejs') %>
         <form action="/auth/register" method="post" class="mb-3">
           <div class="form-floating form-group mb-3">
             <input required type="text" name="username" class="form-control" id="usernameInput" placeholder="username" autocomplete="none"

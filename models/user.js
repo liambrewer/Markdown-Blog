@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   slug: { type: String, required: true, unique: true },
   createdAt: { type: Date, default: Date.now },
+  active: { type: Boolean, default: false }
 },
   { collection: 'users' }
 )

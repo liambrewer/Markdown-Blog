@@ -20,10 +20,12 @@ mongoose.connect(process.env.MONGO_URI)
 
 app.use(expressLayouts)
 app.set('view engine', 'ejs')
+app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(session({
   secret: process.env.SECRET,
   resave: true,
+  cookie: { maxAge: 1000 * 60 * 60 * 24 },
   saveUninitialized: true
 }))
 app.use(passport.initialize())

@@ -42,6 +42,7 @@ function saveArticleAndRedirect(path) {
   
     try {
       article = await article.save()
+      req.flash('success_msg', 'Article Saved!')
       res.redirect(`/articles/${article.slug}`)
     } catch (e) {
       console.log(e)
