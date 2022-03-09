@@ -4,7 +4,7 @@ const router = express.Router()
 
 router.get('/', async ( req, res ) => {
   const articles = await Article.find().sort({ createdAt: 'desc' })
-  res.render('articles/index', { user: req.user, articles: articles })
+  res.render('articles/index', { articles: articles })
 })
 
 router.get('/search', async ( req, res ) => {
