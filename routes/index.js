@@ -17,7 +17,7 @@ router.get('/search', async ( req, res ) => {
   try {
     const articles = await Article.find({ title: { $regex: query, $options: 'i' } })
     
-    res.render('articles/search', { user: req.user, query: query, articles: articles })
+    res.render('articles/search', { query: query, articles: articles })
   } catch (e) {
     res.redirect('/')
   }
