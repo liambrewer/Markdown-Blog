@@ -34,6 +34,7 @@ app.use(flash())
 app.use(( req, res, next ) => {
   res.locals.success_msg = req.flash('success_msg')
   res.locals.error_msg = req.flash('error_msg')
+  res.locals.critical_msg = req.flash('critical_msg')
   res.locals.error = req.flash('error')
   next()
 })
@@ -43,5 +44,10 @@ app.use('/', indexRouter)
 app.use('/auth', authRouter)
 app.use('/users', userRouter)
 app.use('/articles', articleRouter)
+
+app.get('*', ( req, res ) => {
+  req.flash('error_msg', '404 Not Found')
+  res.redirect('error')
+})
 
 app.listen(PORT)

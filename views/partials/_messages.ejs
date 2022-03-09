@@ -21,6 +21,13 @@
   </div>
 <% } %> 
 
+<% if(critical_msg != '') { %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= critical_msg %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %> 
+
 <% if(error != '') { %>
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
     <%= error %>

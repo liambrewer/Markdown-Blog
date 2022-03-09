@@ -8,14 +8,33 @@ router.get('/new', ensureAuthenticated, ( req, res ) => {
 })
 
 router.get('/edit/:id', ensureAuthenticated, async ( req, res ) => {
-  const article = await Article.findById(req.params.id)
-  res.render('articles/edit', { article: article })
+  const id = req.params.id
+  try {
+    const article = await Article.findById(id)
+    res.render('articles/edit', { article: article })
+  } catch (e) {
+    console.log(e)
+    req.flash('critical_msg', 'Error Fetching Data')
+    res.redirect('/')
+  }
+  
 })
 
 router.get('/:slug', async ( req, res ) => {
-  const article = await Article.findOne({ slug: req.params.slug })
-  if (article == null) return res.redirect('/')
-  res.render('articles/show', { user: req.user, article: article })
+  const slug = req.params.slug
+  try {
+    const article = await Article.findOne({ slug: slug })
+    if (article == null) {
+      req.flash('error_msg', `Article not found with slug: ${slug}`)
+      return res.redirect('/')
+    }
+    res.render('articles/show', { user: req.user, article: article })
+  } catch (e) {
+    console.log(e)
+    req.flash('critical_msg', 'Error Fetching Data')
+    res.redirect('/')
+  }
+  
 })
 
 router.post('/', ensureAuthenticated, async ( req, res, next ) => {
@@ -24,13 +43,29 @@ router.post('/', ensureAuthenticated, async ( req, res, next ) => {
 }, saveArticleAndRedirect('new'))
 
 router.put('/:id', ensureAuthenticated, async ( req, res, next ) => {
-  req.article = await Article.findById(req.params.id)
-  next()
+  const id = req.params.id
+  try {
+    req.article = await Article.findById(id)
+    next()
+  } catch (e) {
+    console.log(e)
+    req.flash('critical_msg', 'Failed to get article.')
+    res.redirect('/')
+  }
+  
 }, saveArticleAndRedirect('edit'))
 
 router.delete('/:id', ensureAuthenticated, async ( req, res ) => {
-  await Article.findByIdAndDelete(req.params.id)
-  res.redirect('/')
+  const id = req.params.id
+  try {
+    await Article.findByIdAndDelete(id)
+    req.flash('success_msg', 'Article successfully deleted.')
+    res.redirect('/')
+  } catch (e) {
+    console.log(e)
+    req.flash('critical_msg', 'Failed to delete article.')
+    res.redirect('/')
+  }
 })
 
 function saveArticleAndRedirect(path) {

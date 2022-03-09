@@ -23,4 +23,8 @@ router.get('/search', async ( req, res ) => {
   }
 })
 
+router.get('/error', ( req, res ) => {
+  res.render('error')
+})
+
 module.exports = router
