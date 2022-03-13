@@ -2,17 +2,10 @@
 <h1 class="mb-1"><%= article.title %> </h1>
 
 <div class="text-muted mb-2">
-  <%= article.createdAt.toLocaleDateString() %> at <%= article.createdAt.toLocaleTimeString() %>
+  <%- include('_info') %>
 </div>
 <a href="/" class="btn btn-secondary">All Articles</a>
-<% if(typeof user != 'undefined') { %>
-  <a href="edit/<%= article.id %>"
-    class="btn btn-info">Edit</a>
-  <form action="/<%= article.id %>?_method=DELETE"
-  method="post" class="d-inline">
-    <button type="submit" class="btn btn-danger">Delete</button>
-  </form>
-<% } %>
+<%- include('_options') %> 
 
 <div class="mt-2">
   <%- article.sanitizedHtml %> 

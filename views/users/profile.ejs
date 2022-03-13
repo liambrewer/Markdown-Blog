@@ -1,0 +1,10 @@
+<%- include('../partials/_messages.ejs') %>
+<h1 class="mb-1"><%= u.username %> </h1>
+
+<%- include('_info') %>
+
+<h2 class="mt-2">Articles:</h2>
+
+<% articles.forEach(article => { %>
+  <%- include('_article', {article: article}) %>
+<% }) %>

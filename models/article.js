@@ -10,6 +10,7 @@ const articleSchema = new mongoose.Schema({
   description: { type: String },
   markdown: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
+  author: { type: Object, required: true },
   slug: { type: String, required: true, unique: true },
   sanitizedHtml: { type: String, required: true },
 },

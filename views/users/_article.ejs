@@ -2,13 +2,12 @@
   <div class="card-body">
     <h4 class="card-title"><%= article.title %></h4>
     <div class="card-subtitle text-muted mb-2">
-      <%- include('_info') %>
-    </div>
-    <div class="card-text mb-2">
       <%= article.description %>
     </div>
+    <div class="card-text mb-2">
+      <%= article.markdown %>
+    </div>
     <a href="/articles/<%= article.slug %>"
-    class="btn btn-primary">Read More</a>
-    <%- include('_options.ejs') %> 
+    class="btn btn-primary">View</a>
   </div>
 </div>
